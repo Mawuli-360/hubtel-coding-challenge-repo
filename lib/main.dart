@@ -1,4 +1,6 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 void main() {
   runApp(const MyApp());
@@ -10,116 +12,299 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // TRY THIS: Try running your application with "flutter run". You'll see
-        // the application has a purple toolbar. Then, without quitting the app,
-        // try changing the seedColor in the colorScheme below to Colors.green
-        // and then invoke "hot reload" (save your changes or press the "hot
-        // reload" button in a Flutter-supported IDE, or press "r" if you used
-        // the command line to start the app).
-        //
-        // Notice that the counter didn't reset back to zero; the application
-        // state is not lost during the reload. To reset the state, use hot
-        // restart instead.
-        //
-        // This works for code too, not just values: Most code changes can be
-        // tested with just a hot reload.
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
-      ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+    return ScreenUtilInit(
+      designSize: const Size(375, 812),
+      minTextAdapt: true,
+      splitScreenMode: true,
+      builder: (_, child) {
+        return MaterialApp(
+          debugShowCheckedModeBanner: false,
+          title: 'First Method',
+          theme: ThemeData(
+            primarySwatch: Colors.blue,
+          ),
+          home: child,
+        );
+      },
+      child: const HomeScreen(),
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
-
-  final String title;
+class HomeScreen extends StatefulWidget {
+  const HomeScreen({super.key});
 
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
-    });
-  }
+class _HomeScreenState extends State<HomeScreen> {
+  int selectedTab = 0;
+  List<String> tabs = ['History', 'Transaction'];
 
   @override
   Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
     return Scaffold(
-      appBar: AppBar(
-        // TRY THIS: Try changing the color here to a specific color (to
-        // Colors.amber, perhaps?) and trigger a hot reload to see the AppBar
-        // change color while the other colors stay the same.
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
-      ),
-      body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
-        child: Column(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
-          //
-          // TRY THIS: Invoke "debug painting" (choose the "Toggle Debug Paint"
-          // action in the IDE, or press "p" in the console), to see the
-          // wireframe for each widget.
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
+      // bottomNavigationBar: Card(
+      // ),
+      body: SafeArea(
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 8.h),
+          child: SizedBox(
+            height: 1.sh,
+            width: double.infinity,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                20.verticalSpace,
+                Container(
+                  height: 55.h,
+                  padding: EdgeInsets.symmetric(horizontal: 2.h),
+                  margin: EdgeInsets.symmetric(horizontal: 20.w),
+                  color: const Color(0xffE6EAED),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: List.generate(tabs.length, (index) {
+                      return GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            selectedTab = index;
+                          });
+                        },
+                        child: Container(
+                            color: selectedTab == index ? Colors.white : null,
+                            width: 153.w,
+                            padding: EdgeInsets.symmetric(vertical: 10.h),
+                            child: Text(
+                              tabs[index],
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 18.sp,
+                                  fontWeight: selectedTab == index
+                                      ? FontWeight.bold
+                                      : FontWeight.normal),
+                            )),
+                      );
+                    }),
+                  ),
+                ),
+                20.verticalSpace,
+                // SizedBox(
+                //   height: 50.h,
+                //   // color: Colors.red,
+                //   child: Row(
+                //     children: [
+                //       Container(
+                //         height: 50.h,
+                //         color: Colors.white,
+                //         child: TextFormField(
+                //           decoration: const InputDecoration(
+                //               hintText: 'search', suffixIcon: Icon(Icons.search)),
+                //         ),
+                //       )
+                //     ],
+                //   ),
+                // ),
+                Row(
+                  children: [
+                    Container(
+                      width: 290.w,
+                      color: const Color(0xffE6EAED),
+                      child: TextFormField(
+                        decoration: const InputDecoration(
+                            border: InputBorder.none,
+                            prefixIcon: Icon(Icons.search),
+                            hintText: 'Search'),
+                      ),
+                    ),
+                    Image.asset('assets/images/filter.png')
+                  ],
+                ),
+                20.verticalSpace,
+
+                Container(
+                  padding: EdgeInsets.all(8.h),
+                  decoration: const ShapeDecoration(
+                    shape: StadiumBorder(),
+                    color: Color(0xffE6EAED),
+                  ),
+                  child: Text(
+                    'May 24, 2022',
+                    style: TextStyle(fontSize: 12.sp),
+                  ),
+                ),
+                40.verticalSpace,
+                const HistoryCard(
+                  custommerName: 'Emmanuel Rockson\nKwabena Uncle Ebo',
+                  serviceImage: 'assets/images/mtn.png',
+                  number: '024 123 4567',
+                  statusIcon: Icons.check,
+                  statusMessage: 'successful',
+                  color: Color(0xffDBF7E0),
+                ),
+                20.verticalSpace,
+                const HistoryCard(
+                  custommerName: 'Absa bank\nKwabena Uncle Ebo',
+                  serviceImage: 'assets/images/absa.png',
+                  number: '024 123 4567',
+                  statusIcon: Icons.close,
+                  statusMessage: 'failed',
+                  color: Color(0xffFDB0AC),
+                )
+              ],
             ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
-          ],
+          ),
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+    );
+  }
+}
+
+class HistoryCard extends StatelessWidget {
+  const HistoryCard({
+    super.key,
+    required this.custommerName,
+    required this.serviceImage,
+    required this.number,
+    this.isFav = false,
+    required this.statusIcon,
+    required this.statusMessage,
+    required this.color,
+  });
+
+  final String custommerName;
+  final String serviceImage;
+  final String number;
+  final bool isFav;
+  final IconData statusIcon;
+  final String statusMessage;
+  final Color color;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: EdgeInsets.symmetric(horizontal: 10.h),
+      padding: EdgeInsets.all(10.h),
+      height: 150.h,
+      decoration: BoxDecoration(
+          // color: Colors.red,
+          borderRadius: BorderRadius.circular(8.h),
+          border: Border.all(color: const Color(0xffE6EAED))),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            '14: 45 PM',
+            style: TextStyle(fontSize: 12.sp, color: const Color(0xff9EADBA)),
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Row(
+                children: [
+                  Image.asset(serviceImage),
+                  8.horizontalSpace,
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        custommerName,
+                        style: TextStyle(fontSize: 14.sp),
+                      ),
+                      Text(
+                        '024 123 4567',
+                        style: TextStyle(
+                            fontSize: 12.sp, color: const Color(0xff9EADBA)),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+              Column(
+                children: [
+                  statusCard(
+                      icon: statusIcon, message: statusMessage, color: color),
+                  5.verticalSpace,
+                  Text(
+                    'GHS 500',
+                    style:
+                        TextStyle(fontSize: 18.sp, fontWeight: FontWeight.bold),
+                  ),
+                ],
+              )
+            ],
+          ),
+          const Divider(),
+          10.verticalSpace,
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Row(
+                children: [
+                  Image.asset(
+                    "assets/images/avatar.png",
+                    height: 20.h,
+                  ),
+                  10.horizontalSpace,
+                  Text(
+                    'Personal',
+                    style: TextStyle(fontSize: 15.sp),
+                  ),
+                  10.horizontalSpace,
+                  Container(
+                    height: 8.h,
+                    width: 8.h,
+                    decoration: const BoxDecoration(
+                        shape: BoxShape.circle, color: Color(0xff9CABB8)),
+                  ),
+                  10.horizontalSpace,
+                  Text(
+                    'Cool your heart wai',
+                    style: TextStyle(fontSize: 15.sp),
+                  ),
+                ],
+              ),
+              Icon(
+                Icons.star,
+                color: Colors.yellow,
+                size: 20.h,
+              )
+            ],
+          )
+        ],
+      ),
+    );
+  }
+
+  Widget statusCard({required icon, required message, required color}) {
+    return Container(
+      padding: EdgeInsets.all(2.h),
+      width: 120.w,
+      height: 28.h,
+      decoration: ShapeDecoration(
+        shape: const StadiumBorder(),
+        color: color,
+      ),
+      child: Row(
+        children: [
+          10.horizontalSpace,
+          CircleAvatar(
+            radius: 8.h,
+            backgroundColor: Colors.green,
+            child: Icon(
+              icon,
+              size: 12.h,
+              color: Colors.white,
+            ),
+          ),
+          5.horizontalSpace,
+          Text(
+            message,
+            style: TextStyle(fontSize: 14.sp, color: Colors.green),
+          ),
+        ],
+      ),
     );
   }
 }
